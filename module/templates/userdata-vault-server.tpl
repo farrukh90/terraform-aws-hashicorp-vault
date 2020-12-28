@@ -74,6 +74,7 @@ if [[ ! -z $${YUM} ]]; then
   sudo yum-config-manager --enable rhui-REGION-rhel-server-releases-optional
   sudo yum-config-manager --enable rhui-REGION-rhel-server-supplementary
   sudo yum-config-manager --enable rhui-REGION-rhel-server-extras
+  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
   sudo yum -y check-update
   sudo yum install -q -y wget unzip bind-utils ruby rubygems ntp jq
   sudo systemctl start ntpd.service
@@ -269,20 +270,40 @@ echo "${address} ${name}" | sudo tee -a /etc/hosts
 %{ if tpl_vault_node_name == "vault_2" }
 # vault_2 adds some test data to demonstrate that the cluster is connected to
 #   the same data.
-sleep 5
-logger "Initializing Vault and storing results for ubuntu user"
-vault operator init -recovery-shares 1 -recovery-threshold 1 -format=json > /tmp/key.json
-sudo chown ubuntu:ubuntu /tmp/key.json
+if [[ ! -z $${YUM} ]]; then
+  logger "Installing systemd services for RHEL/CentOS"
+  sleep 5
+  logger "Initializing Vault and storing results for CentOS user"
+  vault operator init -recovery-shares 1 -recovery-threshold 1 -format=json > /tmp/key.json
+  sudo chown centos:centos /tmp/key.json
+  logger "Saving root_token and recovery key to CentOS user's home"
+  VAULT_TOKEN=$(cat /tmp/key.json | jq -r ".root_token")
+  echo $VAULT_TOKEN > /home/centos/root_token
+  sudo chown centos:centos /home/centos/root_token
+  echo $VAULT_TOKEN > /home/centos/.vault-token
+  sudo chown centos:centos /home/centos/.vault-token
+  echo $(cat /tmp/key.json | jq -r ".recovery_keys_b64[]") > /home/centos/recovery_key
+  sudo chown centos:centos /home/centos/recovery_key
 
-logger "Saving root_token and recovery key to ubuntu user's home"
-VAULT_TOKEN=$(cat /tmp/key.json | jq -r ".root_token")
-echo $VAULT_TOKEN > /home/ubuntu/root_token
-sudo chown ubuntu:ubuntu /home/ubuntu/root_token
-echo $VAULT_TOKEN > /home/ubuntu/.vault-token
-sudo chown ubuntu:ubuntu /home/ubuntu/.vault-token
+elif [[ ! -z $${APT_GET} ]]; then
+  logger "Installing systemd services for Debian/Ubuntu"
+  sleep 5
+  logger "Initializing Vault and storing results for ubuntu user"
+  vault operator init -recovery-shares 1 -recovery-threshold 1 -format=json > /tmp/key.json
+  sudo chown ubuntu:ubuntu /tmp/key.json
+  logger "Saving root_token and recovery key to ubuntu user's home"
+  VAULT_TOKEN=$(cat /tmp/key.json | jq -r ".root_token")
+  echo $VAULT_TOKEN > /home/ubuntu/root_token
+  sudo chown ubuntu:ubuntu /home/ubuntu/root_token
+  echo $VAULT_TOKEN > /home/ubuntu/.vault-token
+  sudo chown ubuntu:ubuntu /home/ubuntu/.vault-token
+  echo $(cat /tmp/key.json | jq -r ".recovery_keys_b64[]") > /home/ubuntu/recovery_key
+  sudo chown ubuntu:ubuntu /home/ubuntu/recovery_key
+else
+  logger "Service not installed due to OS detection failure"
+  exit 1;
+fi
 
-echo $(cat /tmp/key.json | jq -r ".recovery_keys_b64[]") > /home/ubuntu/recovery_key
-sudo chown ubuntu:ubuntu /home/ubuntu/recovery_key
 
 logger "Setting VAULT_ADDR and VAULT_TOKEN"
 export VAULT_ADDR=http://127.0.0.1:8200

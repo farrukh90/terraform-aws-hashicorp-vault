@@ -39,7 +39,7 @@ variable "vault_zip_file" {
 
 # Instance size
 variable "instance_type" {
-  default = "t2.micro"
+  default = "m5.large"
 }
 
 # SSH key name to access EC2 instances (should already exist) in the AWS Region
@@ -48,3 +48,4 @@ variable "key_name" {
 
 variable "user" {}
 variable "ssh_key_location" {}
+variable "ami_id" {}

@@ -43,9 +43,7 @@ variable "instance_type" {
 }
 
 # SSH key name to access EC2 instances (should already exist) in the AWS Region
-variable "key_name" {
-}
-
+variable "key_name" {}
 variable "user" {}
 variable "ssh_key_location" {}
 variable "ami_id" {}

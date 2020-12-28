@@ -16,7 +16,7 @@ resource "null_resource" "join-vault" {
     }
 
     inline = [
-      #"sleep 100",
+      "sleep 900",
       "vault operator raft join http://${aws_instance.vault-server[0].public_ip}:8200"
     ]
   }

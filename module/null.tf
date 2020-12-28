@@ -6,7 +6,7 @@ resource "null_resource" "join-vault" {
     aws_instance.vault-server[0],
     aws_instance.vault-server[1],
     aws_instance.vault-server[2]
-    ]
+  ]
   provisioner "remote-exec" {
     connection {
       host        = aws_instance.vault-server[1].public_ip
@@ -16,7 +16,7 @@ resource "null_resource" "join-vault" {
     }
 
     inline = [
-      "sleep 100",
+      #"sleep 100",
       "vault operator raft join http://${aws_instance.vault-server[0].public_ip}:8200"
     ]
   }

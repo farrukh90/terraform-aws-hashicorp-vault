@@ -1,30 +1,12 @@
 provider "aws" {
   region = var.aws_region
 }
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
-
 //--------------------------------------------------------------------
 // Master Key Encryption Provider instance
 //    This node does not participate in the HA clustering
 
 resource "aws_instance" "vault-transit" {
-  ami                         = data.aws_ami.ubuntu.id
+  ami                         = var.ami_id
   instance_type               = var.instance_type
   subnet_id                   = module.vault_demo_vpc.public_subnets[0]
   key_name                    = var.key_name
@@ -55,7 +37,7 @@ resource "aws_instance" "vault-transit" {
 
 resource "aws_instance" "vault-server" {
   count                       = length(var.vault_server_names)
-  ami                         = data.aws_ami.ubuntu.id
+  ami                         = var.ami_id
   instance_type               = var.instance_type
   subnet_id                   = module.vault_demo_vpc.public_subnets[0]
   key_name                    = var.key_name

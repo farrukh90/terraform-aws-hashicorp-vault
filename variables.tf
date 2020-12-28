@@ -4,3 +4,4 @@ variable "environment_name" {}
 variable "key_name" {}
 variable "user" {}
 variable "ssh_key_location" {}
+variable "ami_id" {}

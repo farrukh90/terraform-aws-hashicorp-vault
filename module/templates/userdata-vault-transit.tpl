@@ -73,6 +73,7 @@ sudo timedatectl set-timezone UTC
 if [[ ! -z $${YUM} ]]; then
   logger "RHEL/CentOS system detected"
   logger "Performing updates and installing prerequisites"
+  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
   sudo yum-config-manager --enable rhui-REGION-rhel-server-releases-optional
   sudo yum-config-manager --enable rhui-REGION-rhel-server-supplementary
   sudo yum-config-manager --enable rhui-REGION-rhel-server-extras

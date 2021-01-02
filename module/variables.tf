@@ -40,3 +40,5 @@ variable "vault_zip_file" {
 variable "instance_type" {
   default = "m5.large"
 }
+variable "subnet_id" {}
+variable "vpc_id" {}

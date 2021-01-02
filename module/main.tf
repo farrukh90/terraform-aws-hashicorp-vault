@@ -20,9 +20,8 @@ resource "aws_instance" "vault-transit" {
     tpl_vault_service_name = "vault-${var.environment_name}"
   })
 
-  tags = {
-    Name = "${var.environment_name}-vault-transit"
-  }
+  tags = var.tags
+
 
   lifecycle {
     ignore_changes = [
@@ -56,10 +55,8 @@ resource "aws_instance" "vault-server" {
     tpl_vault_node_address_names = zipmap(var.vault_server_private_ips, var.vault_server_names)
   })
 
-  tags = {
-    Name         = "${var.environment_name}-vault-server-${var.vault_server_names[count.index]}"
-    cluster_name = "raft-test"
-  }
+  tags = var.tags
+
 
   lifecycle {
     ignore_changes = [ami, tags]

@@ -10,7 +10,9 @@ variable "ssh_key_location" {}
 variable "ami_id" {}
 variable "zone_id" {}
 variable "domain" {}
-
+variable "tags" {
+  type = map
+}
 
 # All resources will be tagged with this
 variable "environment_name" {}

@@ -14,3 +14,8 @@ vault_server_private_ips            = [
     "10.0.101.23", 
     "10.0.101.24"
 ]
+
+tags = {
+    "Name" =  "Vault",
+    "something" = "something"
+}

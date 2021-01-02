@@ -12,4 +12,5 @@ module "vault" {
   user               = var.user
   zone_id            = var.zone_id
   domain             = var.domain
+  tags               = var.tags
 }

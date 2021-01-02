@@ -1,7 +1,7 @@
 resource "aws_security_group" "testing" {
   name        = "${var.environment_name}-testing-sg"
   description = "SSH and Internal Traffic"
-  vpc_id      = module.vault_demo_vpc.vpc_id
+  vpc_id      = var.vpc_id
   tags = {
     Name = var.environment_name
   }

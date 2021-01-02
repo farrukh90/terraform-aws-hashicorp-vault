@@ -2,7 +2,7 @@ resource "aws_security_group" "testing" {
   name        = "${var.environment_name}-testing-sg"
   description = "SSH and Internal Traffic"
   vpc_id      = var.vpc_id
-  tags = var.tags
+  tags        = var.tags
   # SSH
   ingress {
     from_port   = 22

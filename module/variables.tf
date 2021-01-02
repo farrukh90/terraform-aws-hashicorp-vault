@@ -11,7 +11,7 @@ variable "ami_id" {}
 variable "zone_id" {}
 variable "domain" {}
 variable "tags" {
-  type = map
+  type = map(any)
 }
 
 # All resources will be tagged with this
@@ -26,7 +26,7 @@ variable "vault_server_names" {
 }
 
 variable "vault_server_private_ips" {
-  type    = list(string)
+  type = list(string)
 }
 
 

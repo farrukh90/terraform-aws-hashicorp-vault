@@ -10,9 +10,9 @@ variable "vpc_id" {}
 variable "zone_id" {}
 variable "domain" {}
 variable "tags" {
-  type = map
+  type = map(any)
 }
 variable "vault_server_private_ips" {
-  type    = list(string)
+  type = list(string)
 }
 

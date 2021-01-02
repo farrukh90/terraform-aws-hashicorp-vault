@@ -25,7 +25,6 @@ These assets are provided to perform the tasks described in the [Vault HA Cluste
 
     # If you want to use a different AWS region
     aws_region = "us-west-1"
-    availability_zones = "us-west-1a"
     ```
 
 1.  Run Terraform commands to provision your cloud resources:

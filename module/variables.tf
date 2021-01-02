@@ -9,9 +9,6 @@ variable "user" {}
 variable "ssh_key_location" {}
 variable "ami_id" {}
 
-variable "availability_zones" {
-  default = "us-east-1a"
-}
 
 # All resources will be tagged with this
 variable "environment_name" {

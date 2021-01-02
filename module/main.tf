@@ -1,6 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
 //--------------------------------------------------------------------
 // Master Key Encryption Provider instance
 //    This node does not participate in the HA clustering

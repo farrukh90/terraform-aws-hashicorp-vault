@@ -35,6 +35,7 @@ output "endpoints" {
     - You will join it to cluster started by vault_2
 
     $ ssh -l ${var.user} ${aws_instance.vault-server[2].public_ip} -i ${var.key_name}.pem
+    domain = ${aws_route53_record.vault.name}
 
 EOF
 }

@@ -10,4 +10,6 @@ module "vault" {
   source             = "./module"
   vpc_id             = var.vpc_id
   user               = var.user
+  zone_id            = var.zone_id
+  domain             = var.domain
 }

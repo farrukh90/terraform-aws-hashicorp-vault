@@ -8,12 +8,12 @@ variable "key_name" {}
 variable "user" {}
 variable "ssh_key_location" {}
 variable "ami_id" {}
+variable "zone_id" {}
+variable "domain" {}
 
 
 # All resources will be tagged with this
-variable "environment_name" {
-  default = "raft-demo"
-}
+variable "environment_name" {}
 
 
 
